@@ -6,21 +6,21 @@
  * @param {*} next
  */
 const auth = (req, res, next) => {
-  if (!req.query.token) {
+  if (!req.query.key) {
     return res.status(400).json({
       error: "API token is required.",
     });
   }
 
   // validate
-  if (req.query.token !== process.env.APP_TOKEN) {
+  if (req.query.key !== process.env.APP_TOKEN) {
     return res.status(400).json({
-      error: "Token is invalid.",
+      error: "Token key is invalid.",
     });
   }
 
   // remove token from query string, pass rest...
-  delete req.query.token;
+  delete req.query.key;
 
   next();
 };

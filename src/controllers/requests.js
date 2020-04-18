@@ -9,10 +9,11 @@ const ErrorResponse = require("../utils/ErrorResponse");
 exports.getStats = asyncHandler(async (req, res, next) => {
   const query = req.query;
   let error = null;
+  let ytRes = null;
 
   // make request to YouTube API
   try {
-    const ytRes = await youtube.videos.list({
+    ytRes = await youtube.videos.list({
       part: "statistics",
       id: query.videoId,
     });
@@ -28,17 +29,14 @@ exports.getStats = asyncHandler(async (req, res, next) => {
     route: "videos",
     ip: req.connection.remoteAddress,
     success: error ? false : true,
-    message: error.message,
+    message: error ? error.message : null,
     query,
   });
 
   if (error) return next(error);
 
   // return success
-  res.status(200).json({
-    success: true,
-    data: ytRes.data,
-  });
+  res.status(200).json(ytRes.data);
 });
 
 // @desc      Get comments by keywords
@@ -47,10 +45,11 @@ exports.getStats = asyncHandler(async (req, res, next) => {
 exports.getComments = asyncHandler(async (req, res, next) => {
   const query = req.query;
   let error = null;
+  let ytRes = null;
 
   // make request to YouTube API
   try {
-    const ytRes = youtube.commentThreads.list({
+    ytRes = await youtube.commentThreads.list({
       part: "snippet, replies",
       maxResults: 100,
       order: "relevance",
@@ -68,14 +67,11 @@ exports.getComments = asyncHandler(async (req, res, next) => {
     route: "commentThreads",
     ip: req.connection.remoteAddress,
     success: error ? false : true,
-    error,
+    message: error ? error.message : null,
     query,
   });
 
   if (error) return next(error);
 
-  res.status(200).json({
-    success: true,
-    data: ytRes.data,
-  });
+  res.status(200).json(ytRes.data);
 });

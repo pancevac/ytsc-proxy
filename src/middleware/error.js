@@ -13,7 +13,6 @@ const errorHandler = (err, req, res, next) => {
 
   // finally, send response
   res.status(error.statusCode || 500).json({
-    success: false,
     error: error.message || 'Something went wrong!'
   })
 }

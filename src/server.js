@@ -25,8 +25,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // add routes
-app.get('/videos', [auth, sanitizer], getStats);
-app.get('/commentThreads', [auth, sanitizer], getComments);
+app.get('api/v1/videos', [auth, sanitizer], getStats);
+app.get('api/v1/commentThreads', [auth, sanitizer], getComments);
 
 // custom error handler
 app.use(errorHandler);

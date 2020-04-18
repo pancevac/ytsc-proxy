@@ -27,7 +27,7 @@ exports.getStats = asyncHandler(async (req, res, next) => {
   // save request in db
   const request = await Request.create({
     route: "videos",
-    ip: req.connection.remoteAddress,
+    ip: req.ip,
     success: error ? false : true,
     message: error ? error.message : null,
     query,
@@ -65,7 +65,7 @@ exports.getComments = asyncHandler(async (req, res, next) => {
   // save in db
   const request = await Request.create({
     route: "commentThreads",
-    ip: req.connection.remoteAddress,
+    ip: req.ip,
     success: error ? false : true,
     message: error ? error.message : null,
     query,

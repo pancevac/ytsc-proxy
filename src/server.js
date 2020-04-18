@@ -24,6 +24,7 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+app.set('trust proxy', true); // if app is behind reverse proxy, used for client ip address
 app.use(helmet()) // add security headers
 app.use(cors())   // enable all cors requests
 app.use(rateLimit)  // apply api rate limit

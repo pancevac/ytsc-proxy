@@ -7,14 +7,14 @@
  */
 const auth = (req, res, next) => {
   if (!req.query.key) {
-    return res.status(400).json({
+    return res.status(401).json({
       error: "API token is required.",
     });
   }
 
   // validate
   if (req.query.key !== process.env.APP_TOKEN) {
-    return res.status(400).json({
+    return res.status(401).json({
       error: "Token key is invalid.",
     });
   }

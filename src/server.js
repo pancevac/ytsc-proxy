@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const express = require("express");
+const Sentry = require('@sentry/node');
 const morgan = require('morgan')
 const helmet = require('helmet')
 const cors = require('cors')
@@ -16,8 +17,13 @@ const { getStats, getComments } = require('./controllers/requests');
 // connect to db
 connectDB();
 
+Sentry.init({ dsn: process.env.SENTRY_DSN });
+
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// The Sentry request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
 
 // dev logging middleware
 if (process.env.NODE_ENV === "development") {
@@ -33,6 +39,8 @@ app.use(rateLimit)  // apply api rate limit
 app.get('/api/v1/videos', [auth, sanitizer], getStats);
 app.get('/api/v1/commentThreads', [auth, sanitizer], getComments);
 
+// the Sentry error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 // custom error handler
 app.use(errorHandler);
 

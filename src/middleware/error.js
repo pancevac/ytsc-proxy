@@ -1,4 +1,6 @@
 const ErrorResponse = require('../utils/ErrorResponse')
+const Sentry = require('@sentry/node');
+
 
 const errorHandler = (err, req, res, next) => {
   // log to console for dev
@@ -9,6 +11,10 @@ const errorHandler = (err, req, res, next) => {
   // mongoose validation error
   if (err.name === 'ValidationError') {
     error = new ErrorResponse(err._message, 400);
+  }
+
+  if (err.statusCode == 500) {
+    Sentry.captureException(error);
   }
 
   // finally, send response

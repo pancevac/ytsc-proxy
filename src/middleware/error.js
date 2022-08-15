@@ -13,8 +13,6 @@ const errorHandler = (err, req, res, next) => {
     error = new ErrorResponse(err._message, 400);
   }
 
-  console.log(error);
-
   if (err.statusCode == 500) {
     Sentry.captureException(error);
   }

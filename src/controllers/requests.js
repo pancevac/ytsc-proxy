@@ -52,7 +52,7 @@ exports.getComments = asyncHandler(async (req, res, next) => {
     ytRes = await youtube.commentThreads.list({
       part: "snippet, replies",
       maxResults: 100,
-      order: "relevance",
+      order: "time",
       ...query,
     });
   } catch (err) {

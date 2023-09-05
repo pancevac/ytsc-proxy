@@ -12,7 +12,7 @@ const connectDB = require("../config/db");
 const auth = require('./middleware/auth');
 const sanitizer = require('./middleware/sanitizer');
 const errorHandler = require('./middleware/error');
-const { getStats, getComments } = require('./controllers/requests');
+const { getStats, getComments, getHealth } = require('./controllers/requests');
 
 // connect to db
 connectDB();
@@ -38,6 +38,7 @@ app.use(rateLimit)  // apply api rate limit
 // add routes
 app.get('/api/v1/videos', [auth, sanitizer], getStats);
 app.get('/api/v1/commentThreads', [auth, sanitizer], getComments);
+app.get('/api/v1/health', getHealth);
 
 // the Sentry error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());

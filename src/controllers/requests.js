@@ -40,7 +40,7 @@ exports.getStats = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Get comments by keywords
-// @route     GET /api/v1/getComments
+// @route     GET /api/v1/commentThreads
 // @access    Private
 exports.getComments = asyncHandler(async (req, res, next) => {
   const query = req.query;
@@ -75,3 +75,11 @@ exports.getComments = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(ytRes.data);
 });
+
+
+// @desc      Get service liveness
+// @route     GET /api/v1/health
+// @access    Private
+exports.getHealth = asyncHandler(async (req, res, next) => {
+  res.status(200).json({'status': 'live'})
+})

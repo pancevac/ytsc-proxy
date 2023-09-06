@@ -6,7 +6,7 @@
  * @param {*} next
  */
 const sanitize = (req, res, next) => {
-  const allowedParams = ["videoId", "searchTerms"];
+  const allowedParams = ["videoId", "searchTerms", "allThreadsRelatedToChannelId"];
   const query = {};
 
   // filter only allowed params

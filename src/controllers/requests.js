@@ -14,7 +14,7 @@ exports.getStats = asyncHandler(async (req, res, next) => {
   // make request to YouTube API
   try {
     ytRes = await youtube.videos.list({
-      part: "statistics",
+      part: "statistics, snippet",
       id: query.videoId,
     });
   } catch (err) {
